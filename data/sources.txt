@@ -1,0 +1,5 @@
+S&P 500 ESG Risk Ratings
+https://www.kaggle.com/datasets/pritish509/s-and-p-500-esg-risk-ratings?resource=download
+
+S&P 500 Stock Analysis for Beginners
+https://www.kaggle.com/code/faryarmemon/s-p-500-stock-analysis-for-beginners/input?select=sp500_companies.csv
