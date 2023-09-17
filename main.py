@@ -107,7 +107,8 @@ if SubmitBut:
 
     returntype = (trainNetwork())
     with st.container():
-        st.write(str(returntype))
+        st.header(str(returntype))
+        st.subheader('This is your sustainability score. The higher the better!')
 
 
 
