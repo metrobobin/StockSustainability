@@ -5,6 +5,8 @@ import csv
 from numpy import loadtxt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
+from streamlit_lottie import st_lottie
+import requests
 
 # Neural Network
 
@@ -35,72 +37,57 @@ def trainNetwork():
     return (predictions[0])
 
 
- # UI Builder 
+# UI Builder 
+st.set_page_config(page_title="Sustainability Calculator", page_icon=":earth_americas:", layout="wide")
 
-with open('style.css') as f:
-       st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-       project_background = """
-       <style>
-        height: 100%;
-	/* max-height: 600px; */
-	width: 1000px;
-	background-color: hsla(200,40%,30%,.4);
-	background-image:		
-		url('https://78.media.tumblr.com/cae86e76225a25b17332dfc9cf8b1121/tumblr_p7n8kqHMuD1uy4lhuo1_540.png'), 
-		url('https://78.media.tumblr.com/66445d34fe560351d474af69ef3f2fb0/tumblr_p7n908E1Jb1uy4lhuo1_1280.png'),
-		url('https://78.media.tumblr.com/8cd0a12b7d9d5ba2c7d26f42c25de99f/tumblr_p7n8kqHMuD1uy4lhuo2_1280.png'),
-		url('https://78.media.tumblr.com/5ecb41b654f4e8878f59445b948ede50/tumblr_p7n8on19cV1uy4lhuo1_1280.png'),
-		url('https://78.media.tumblr.com/28bd9a2522fbf8981d680317ccbf4282/tumblr_p7n8kqHMuD1uy4lhuo3_1280.png');
-	background-repeat: repeat-x;
-	background-position: 
-		0 20%,
-		0 100%,
-		0 50%,
-		0 100%,
-		0 0;
-	background-size: 
-		2500px,
-		800px,
-		500px 200px,
-		1000px,
-		400px 260px;
-	animation: 50s para infinite linear;
-	}
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
-@keyframes para {
-	100% {
-		background-position: 
-			-5000px 20%,
-			-800px 95%,
-			500px 50%,
-			1000px 100%,
-			400px 0;
-        <style>
-        """
-st.markdown(project_background, unsafe_allow_html=True)
+#Header
+st.subheader("Hi, welcome to our Project :wave:")
+st.title('Sustainability Calculator :recycle:')
+
+#Animations
+lottie_coding = load_lottieurl("https://lottie.host/fd96b7f7-ffac-40f4-8f1c-cabc08b6c3e9/HdkGG4yANf.json")
+
+#Columns for website
+with st.container():
+     st.write("---")
+     left_column, right_column = st.columns(2)
+     with left_column:
+          RV_title = st.number_input('Revenue Growth')
+          
+          EB_title = st.number_input("EBITDA[*](https://www.bdc.ca/en/articles-tools/entrepreneur-toolkit/templates-business-guides/glossary/ebitda#:~:text=EBITDA%20is%20short%20for%20earnings,and%20ability%20to%20generate%20cash.)")
+          NE_title = st.number_input('Number of Employees')
+          Weight_title = st.number_input('Weight %')
+          EV_title = st.number_input('Enviornmental Score')
+          GoV_title = st.number_input("Government Score[*](https://www.msci.com/documents/1296102/14524248/MSCI+ESG+Research+Controversies+Executive+Summary+Methodology+-++July+2020.pdf/b0a2bb88-2360-1728-b70e-2f0a889b6bd4)")
+          SS_title = st.number_input('Social Score')
+          ControS_title = st.number_input('Controversial Score[*](https://www.msci.com/documents/1296102/14524248/MSCI+ESG+Research+Controversies+Executive+Summary+Methodology+-++July+2020.pdf/b0a2bb88-2360-1728-b70e-2f0a889b6bd4)')
+          SubmitBut = st.button("Calculate", type="primary")
+          
+
+with right_column:
+     st_lottie(lottie_coding, height=700, loop=True, key="coding")
+
+## Adding background
+    
+## Removing footer
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
 
 # Array to make CSV
 intervals = np.array([[0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1]])
-       
-project_title = st.markdown(":green[Sustainability] Calculator :earth_americas:")
-      
-RV_title = st.number_input('Revenue Growth')
 
-EB_title = st.number_input("EBITDA[*](https://www.bdc.ca/en/articles-tools/entrepreneur-toolkit/templates-business-guides/glossary/ebitda#:~:text=EBITDA%20is%20short%20for%20earnings,and%20ability%20to%20generate%20cash.)")
-
-NE_title = st.number_input('Number of Employees')
-
-Weight_title = st.number_input('Weight %')
-
-EV_title = st.number_input('Enviornmental Score')
-
-GoV_title = st.number_input('Government Score')
-
-SS_title = st.number_input('Social Score')
-
-ControS_title = st.number_input('Controversial Score')
-
-SubmitBut = st.button("Calculate", type="primary")
 if SubmitBut:
     intervals[0,0] = (RV_title)
     intervals[0,1] = (EB_title)
@@ -119,4 +106,10 @@ if SubmitBut:
 
     returntype = (trainNetwork())
     st.text(str(returntype))
+
+
+
+
+ 
+
 
