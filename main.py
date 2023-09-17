@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import csv
 from numpy import loadtxt
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
@@ -26,12 +27,12 @@ def trainNetwork():
     _, accuracy = model.evaluate(inData, outData)
     print('Accuracy: %.2f' % (accuracy*100))
 
-    predictData = loadtxt("test.csv", delimiter=',')
-    predictRow = predictData[0:8]
+    predictData = loadtxt('test.csv', delimiter=',')
+    predictRow = predictData[:,0:8]
 
-    predictions = model.predict(inData)
+    predictions = model.predict(predictRow)
     
-    print(predictions[0])
+    return (predictions[0])
 
 
  # UI Builder 
@@ -79,7 +80,7 @@ with open('style.css') as f:
 st.markdown(project_background, unsafe_allow_html=True)
 
 # Array to make CSV
-values = []
+intervals = np.array([[0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1]])
        
 project_title = st.markdown(":green[Sustainability] Calculator :earth_americas:")
       
@@ -101,16 +102,21 @@ ControS_title = st.number_input('Controversial Score')
 
 SubmitBut = st.button("Calculate", type="primary")
 if SubmitBut:
-    values.append(RV_title)
-    values.append(EB_title)
-    values.append(NE_title)
-    values.append(Weight_title)
-    values.append(EV_title)
-    values.append(GoV_title)
-    values.append(SS_title)
-    values.append(ControS_title)
-    arr = np.asarray(values)
-    arr.tofile("test.csv",sep= ',')
-    trainNetwork()
+    intervals[0,0] = (RV_title)
+    intervals[0,1] = (EB_title)
+    intervals[0,2] = (NE_title)
+    intervals[0,3] = (Weight_title)
+    intervals[0,4] = (EV_title)
+    intervals[0,5] = (GoV_title)
+    intervals[0,6] = (SS_title)
+    intervals[0,7] = (ControS_title)
 
+    print (intervals)
+
+    with open('test.csv','w') as myfile:
+         wr = csv.writer(myfile) #, quoting=csv.QUOTE_ALL)
+         wr.writerows(intervals)
+
+    returntype = (trainNetwork())
+    st.text(str(returntype))
 
