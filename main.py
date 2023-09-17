@@ -105,7 +105,8 @@ if SubmitBut:
          wr.writerows(intervals)
 
     returntype = (trainNetwork())
-    st.text(str(returntype))
+    with st.container():
+        st.write(str(returntype))
 
 
 
