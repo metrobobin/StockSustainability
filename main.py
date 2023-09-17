@@ -34,6 +34,7 @@ def trainNetwork():
 
     predictions = model.predict(predictRow)
     
+    print(predictions[0])
     return (predictions[0])
 
 
