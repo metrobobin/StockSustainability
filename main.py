@@ -85,24 +85,31 @@ intervals = np.array([[0,0,0,0,0,0,0,0], [1,1,1,1,1,1,1,1]])
 project_title = st.markdown(":green[Sustainability] Calculator :earth_americas:")
       
 RV_title = st.number_input('Revenue Growth')
-Weight_title = st.number_input('Weight %')
-NE_title = st.number_input('Number of Employees')
-EV_title = st.number_input('Environmental Score')
-GoV_title = st.number_input('Government Score')
-ControS_title = st.number_input('Controversial Score')
+
 EB_title = st.number_input("EBITDA[*](https://www.bdc.ca/en/articles-tools/entrepreneur-toolkit/templates-business-guides/glossary/ebitda#:~:text=EBITDA%20is%20short%20for%20earnings,and%20ability%20to%20generate%20cash.)")
+
+NE_title = st.number_input('Number of Employees')
+
+Weight_title = st.number_input('Weight %')
+
+EV_title = st.number_input('Enviornmental Score')
+
+GoV_title = st.number_input('Government Score')
+
 SS_title = st.number_input('Social Score')
+
+ControS_title = st.number_input('Controversial Score')
 
 SubmitBut = st.button("Calculate", type="primary")
 if SubmitBut:
     intervals[0,0] = (RV_title)
-    intervals[0,1] = (Weight_title)
+    intervals[0,1] = (EB_title)
     intervals[0,2] = (NE_title)
-    intervals[0,3] = (EV_title)
-    intervals[0,4] = (GoV_title)
-    intervals[0,5] = (ControS_title)
-    intervals[0,6] = (EB_title)
-    intervals[0,7] = (SS_title)
+    intervals[0,3] = (Weight_title)
+    intervals[0,4] = (EV_title)
+    intervals[0,5] = (GoV_title)
+    intervals[0,6] = (SS_title)
+    intervals[0,7] = (ControS_title)
 
     print (intervals)
 
@@ -111,8 +118,5 @@ if SubmitBut:
          wr.writerows(intervals)
 
     returntype = (trainNetwork())
-    with st.container():
-        st.header(str(returntype))
-        st.subheader("This is your sustainability score! The higher the better.")
-
+    st.text(str(returntype))
 
